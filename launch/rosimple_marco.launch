@@ -1,0 +1,5 @@
+<launch>
+	<node name="rosimple_backed" pkg="rosimple" type="rosimple_backend.py" output="screen" />
+	<node name="rosimple_webserver" pkg="rosimple" type="pywebserver.py"/>
+	<node name="string_to_play_motion" pkg="rosimple" type="string_to_play_motion.py"/>
+</launch>

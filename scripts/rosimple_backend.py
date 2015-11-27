@@ -71,7 +71,8 @@ class ROSimpleServerProtocol(WebSocketServerProtocol):
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))    
 
-    def build_ros_node(self,blockly_code):    
+    def build_ros_node(self,blockly_code):   
+        rospy.loginfo("We are trying to build a ros node") 
         print("building the ros node...")
         filename = "test.py"
         target = open(filename, 'w')
@@ -94,6 +95,7 @@ class ROSimpleServerProtocol(WebSocketServerProtocol):
         # close the file
         target.close()
         ###########################
+        rospy.loginfo("We just built a ros node")
 
 
 
@@ -115,12 +117,14 @@ def talker():
         # Trollius >= 0.3 was renamed
         import trollius as asyncio
 
-    factory = WebSocketServerFactory('ws://0.0.0.0:9000', debug=False)
+    factory = WebSocketServerFactory('ws://0.0.0.0:9001', debug=False)
     factory.protocol = ROSimpleServerProtocol
 
     loop = asyncio.get_event_loop()
-    coro = loop.create_server(factory, '0.0.0.0', 9000)
+    coro = loop.create_server(factory, '0.0.0.0', 9001)
     server = loop.run_until_complete(coro)
+
+    rospy.loginfo("Backend started!")
 
     try:
         loop.run_forever()
